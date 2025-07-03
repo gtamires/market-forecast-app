@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+
+{% block title %}Home{% endblock %}
+
+{% block content %}
+
+<style>
+    .centered-container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+
+    .centered-content {
+      text-align: center;
+    }
+</style>
+
+<div class="centered-container">
+  <div class="centered-content">
+    <h2>Welcome to Financial Market Forecasting Application</h2>
+
+    {% if current_user.is_authenticated %}
+      <a href="{{ url_for('analysis.analysis') }}" class="button-outline">Exploratory Data Analysis</a>
+      <a href="{{ url_for('predictorlstm.lstm') }}" class="button-outline">LSTM Predictor</a>
+      <a href="{{ url_for('predictorgru.gru') }}" class="button-outline">GRU Predictor</a>
+      <a href="{{ url_for('predictorrf.rf') }}" class="button-outline">RF Predictor</a>
+      <a href="{{ url_for('auth.logout') }}" class="button-outline">Logout</a>
+    {% else %}
+      <p><a href="{{ url_for('auth.login') }}" class="button-outline">login</a></p>
+    {% endif %}
+  </div>
+</div>
+
+{% endblock %}

@@ -1,0 +1,123 @@
+/* Global Styles */
+body {
+  font-family: 'Arial', sans-serif;
+  background-color: #f4f4f9;
+  margin: 0;
+  padding: 0;
+  color: #333;
+}
+
+.button-link {
+  display: inline-block;
+  padding: 10px 20px;
+  font-size: 16px;
+  color: #fff;
+  background-color: #007bff;
+  border: none;
+  border-radius: 4px;
+  text-align: center;
+  text-decoration: none;
+}
+
+.button-link:hover {
+  background-color: #0056b3;
+}
+
+.button-outline {
+  display: inline-block;
+  padding: 10px 20px;
+  font-size: 16px;
+  color: #007bff;
+  background-color: transparent;
+  border: 2px solid #007bff;
+  border-radius: 4px;
+  text-align: center;
+  text-decoration: none;
+  transition: background-color 0.3s ease;
+}
+
+.button-outline:hover {
+  background-color: #007bff;
+  color: #fff;
+}
+
+h1, h2 {
+  color: #333;
+  text-align: center;
+}
+
+.container {
+  width: 80%;
+  margin: 0 auto;
+}
+
+h1 {
+  margin-top: 20px;
+  font-size: 36px;
+  color: #4CAF50;
+}
+
+h2 {
+  font-size: 28px;
+  margin-top: 20px;
+}
+
+p {
+  font-size: 18px;
+  line-height: 1.6;
+  margin: 15px 0;
+}
+
+strong {
+  color: #007BFF;
+}
+
+/* Card-like section for displaying major outputs */
+.card {
+  background-color: #ffffff;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  margin-bottom: 20px;
+}
+
+.card p {
+  font-size: 18px;
+}
+
+/* Section for displaying EDA plot */
+img {
+  display: block;
+  margin: 20px auto;
+  max-width: 100%;
+  border-radius: 8px;
+}
+
+/* Table for data visualization (optional) */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+}
+
+table, th, td {
+  border: 1px solid #ddd;
+}
+
+th, td {
+  padding: 12px;
+  text-align: center;
+}
+
+th {
+  background-color: #f2f2f2;
+}
+
+/* Footer */
+footer {
+  text-align: center;
+  margin-top: 30px;
+  padding: 10px;
+  background-color: #4CAF50;
+  color: white;
+}

@@ -1,0 +1,27 @@
+# Ambientes virtuais
+venv/
+.env/
+
+# Arquivos Python cache
+__pycache__/
+*.py[cod]
+*.pyo
+
+# Jupyter Notebook checkpoints
+.ipynb_checkpoints
+
+# Arquivos de log
+*.log
+
+# Configs locais
+*.env
+*.DS_Store
+
+# IDEs
+.vscode/
+.idea/
+
+# Arquivos exportados
+*.csv
+*.xlsx
+*.pdf

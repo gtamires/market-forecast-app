@@ -1,0 +1,85 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Exploratory Data Analysis</title>
+    <style>
+        body { font-family: Arial, sans-serif; padding: 30px; max-width: 800px; margin: auto; background: #f7f7f7; }
+        h1 { color: #2c3e50; }
+        form { background: #fff; padding: 20px; border-radius: 10px; box-shadow: 0 0 5px rgba(0,0,0,0.1); margin-bottom: 30px; }
+        label { display: block; margin-top: 10px; font-weight: bold; }
+        input, select { padding: 8px; margin: 5px 0; width: 100%; border: 1px solid #ccc; border-radius: 5px; }
+        .radio-group { display: flex; flex-wrap: wrap; gap: 10px; }
+        .radio-group label { display: inline-flex; align-items: center; margin-right: 15px; font-weight: normal; }
+        input[type="submit"] { background: #3498db; color: #fff; border: none; cursor: pointer; padding: 10px; border-radius: 5px; }
+        input[type="submit"]:hover { background: #2980b9; }
+        .stats { background: #ecf0f1; padding: 15px; border-radius: 8px; margin-bottom: 20px; }
+        .error { color: red; font-weight: bold; margin-bottom: 20px; }
+        .plots img { max-width: 100%; border-radius: 8px; margin-bottom: 20px; }
+    </style>
+</head>
+<body>
+    <a href="{{ url_for('home.index') }}" class="button-outline">Home</a>
+    {% if current_user.is_authenticated %}
+      <a href="{{ url_for('auth.logout') }}" class="button-outline">Logout</a>
+    {% else %}
+      <p><a href="{{ url_for('auth.login') }}" class="button-outline">login</a></p>
+    {% endif %}
+    <h1>Exploratory Data Analysis</h1>
+
+    {% if error %}
+        <div class="error">{{ error }}</div>
+    {% endif %}
+
+    <form method="POST">
+        <label>Stock Symbol:</label>
+        <div class="radio-group">
+            {% for opt in stock_options %}
+                <label>
+                    <input type="radio" name="symbol" value="{{ opt }}" {% if selected_symbol == opt %}checked{% endif %}> {{ opt }}
+                </label>
+            {% endfor %}
+        </div>
+        <!--
+        Alternatively, use a dropdown:
+        <label for="symbol">Stock Symbol:</label>
+        <select id="symbol" name="symbol">
+            {% for opt in stock_options %}
+                <option value="{{ opt }}" {% if selected_symbol == opt %}selected{% endif %}>{{ opt }}</option>
+            {% endfor %}
+        </select>
+        -->
+
+        <!--
+        <label for="start_date">Start Date:</label>
+        <input type="date" id="start_date" name="start_date" value="{{ start_date }}">
+
+        <label for="end_date">End Date:</label>
+        <input type="date" id="end_date" name="end_date" value="{{ end_date }}">
+        -->
+        
+        <input type="submit" value="Run EDA">
+    </form>
+
+    {% if summary_stats %}
+        <h2>Summary Statistics</h2>
+        <div class="stats">
+            <ul>
+                {% for key, val in summary_stats.items() %}
+                    <li><strong>{{ key.replace('_', ' ') | title }}:</strong> {{ val }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+    {% endif %}
+
+    {% if plots %}
+        <h2>Plots</h2>
+        <div class="plots">
+            {% for p in plots %}
+                <img src="{{ url_for('static', filename=p) }}" alt="EDA plot">
+            {% endfor %}
+        </div>
+    {% endif %}
+</body>
+</html>

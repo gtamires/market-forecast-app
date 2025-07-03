@@ -1,0 +1,157 @@
+
+<!-- gru.html -->
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>GRU Stock Price Prediction</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 30px;
+            max-width: 800px;
+            margin: auto;
+            background-color: #f7f7f7;
+        }
+        h1 {
+            color: #2c3e50;
+        }
+        form {
+            background: #ffffff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 5px rgba(0,0,0,0.1);
+            margin-bottom: 30px;
+        }
+        input[type="text"],
+        input[type="date"] {
+            padding: 10px;
+            width: 100%;
+            margin-bottom: 15px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+        }
+        input[type="submit"] {
+            background-color: #2ecc71;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        input[type="submit"]:hover {
+            background-color: #27ae60;
+        }
+        .metrics {
+            background: #ecf0f1;
+            padding: 15px;
+            border-radius: 8px;
+        }
+        .error {
+            color: red;
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+
+    <a href="{{ url_for('home.index') }}" class="button-outline">Home</a>
+    {% if current_user.is_authenticated %}
+      <a href="{{ url_for('auth.logout') }}" class="button-outline">Logout</a>
+    {% else %}
+      <p><a href="{{ url_for('auth.login') }}" class="button-outline">login</a></p>
+    {% endif %}
+    
+    <h1>GRU (Gated Recurrent Unit) Stock Price Predictor</h1>
+
+    {% if error %}
+        <div class="error">{{ error }}</div>
+    {% endif %}
+
+    <form method="POST">
+        <label for="symbol">Choose Stock Symbol:</label>
+        <select name="symbol" id="symbol">
+            {% for option in stock_options %}
+                <option value="{{ option }}" {% if selected_symbol == option %}selected{% endif %}>{{ option }}</option>
+            {% endfor %}
+        </select>
+        <br><br>
+
+        <label for="days">Days Ahead:</label>
+        <input type="number" name="days" id="days" value="{{ days_ahead }}" required>
+        <br><br>
+
+        <label for="investment">Investment Amount (USD):</label>
+        <input type="number" step="0.01" name="investment" id="investment" placeholder="e.g., 1000"
+            value="{{ investment if investment is not none else '500' }}" >
+        <br><br>
+
+        <input type="submit" value="Predict">
+    </form>
+
+    {% if error %}
+        <p style="color: red;">{{ error }}</p>
+    {% endif %}
+    
+    {% if last_price and last_date %}
+        <p><strong>Price on {{ last_date }}:</strong> ${{ last_price }}</p>
+    {% endif %}
+
+    {% if summary %}
+        <h2>Forecast Summary</h2>
+        <p>{{ summary }}</p>
+    {% endif %}
+
+    {% if future_price %}
+        <h3>Predicted Price on Day {{ request.form['days'] }}:</h3>
+        <p><strong>${{ future_price }}</strong></p>
+    {% endif %}
+
+    {% if investment and expected_return %}
+        <h3>Expected Value After {{ days_ahead }} Days:</h3>
+        <p><strong>${{ expected_return }}</strong> from an investment of ${{ investment }}</p>
+    {% endif %}
+
+    {% if plot_url %}
+        <h2>Prediction Plot</h2>
+        <img src="{{ url_for('static', filename='plot.png') }}" alt="Stock Prediction Plot" style="width:100%; border-radius: 10px;">
+    {% endif %}
+
+    {% if past_plot_url %}
+        <h3>Past 5 Months - Actual vs Predicted</h3>
+        <img src="{{ url_for('static', filename='past_plot.png') }}" alt="Past Plot" width="100%">
+    {% endif %}
+
+    {% if future_plot_url %}
+        <h3>Future Forecast</h3>
+        <img src="{{ url_for('static', filename='future_plot.png') }}" alt="Future Plot" width="100%">
+    {% endif %}
+
+
+    {% if next_day_price %}
+        <h2>Predicted Price for Tomorrow:</h2>
+        <p><strong>${{ next_day_price }}</strong></p>
+    {% endif %}
+
+    {% if metrics %}
+        <h2>Model Evaluation Metrics</h2>
+        <div class="metrics">
+            <ul>
+                <li><strong>MSE:</strong> {{ metrics['MSE'] }}</li>
+                <li><strong>RMSE:</strong> {{ metrics['RMSE'] }}</li>
+                <li><strong>MAE:</strong> {{ metrics['MAE'] }}</li>
+            </ul>
+        </div>
+    {% endif %}
+
+    <!--
+    {% if csv_link %}
+        <h3>Download Predictions as CSV:</h3>
+        <a href="{{ url_for('static', filename=csv_link) }}" download>
+            Click here to download the forecasted prices.
+        </a>
+    {% endif %}
+    -->
+</body>
+</html>
